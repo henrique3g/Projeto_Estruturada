@@ -1,5 +1,5 @@
 # Nome do projeto
-PROJ_NAME=Sistema
+PROJ_NAME=sistema
  
 # Arquivos .c
 C_SOURCE=$(wildcard ./src/*.c)

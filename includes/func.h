@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <time.h>
+#define MAX 30
 typedef struct {
 	int dia;
 	int mes;

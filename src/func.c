@@ -15,9 +15,10 @@ void clearBuf(){
 }
 
 void lerString(char *s){
-    fgets(s, sizeof(s), stdin);
+    fgets(s, MAX, stdin);
     if(s[strlen(s) - 1] == '\n')
         s[strlen(s) - 1] = '\0';
+    toUpperCase(s);
 }
 
 void toUpperCase(char *s){

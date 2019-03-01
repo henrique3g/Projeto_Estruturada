@@ -20,4 +20,6 @@ void cabecalho(int i);
 
 void printCabecalho(char *s);
 
+void sair();
+
 #endif

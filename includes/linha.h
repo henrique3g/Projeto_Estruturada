@@ -16,11 +16,21 @@ typedef struct {
     float vlr;
     int ativo;
 } Linha;
-
-long int num_linhas;
-
+int cont_Lin;
+int num_linhas;
+Linha *lin;
 Linha* carregarLinhas();
 
-void mostrarLinhas(Linha lin);
+void mostrarLinha(Linha lin);
+
+void listarLinhas();
+
+void inserirLinha();
+
+void removerLinha();
+
+void alterarLinha();
+
+int pesquisarLinha();
 
 #endif

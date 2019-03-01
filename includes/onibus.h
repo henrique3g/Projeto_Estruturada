@@ -17,8 +17,17 @@ typedef struct {
 	int ass[20];
 }Onibus;
 
-long int num_onibus;
+Onibus *oni;
+int num_onibus;
+int cont_oni;
 
 Onibus* carregarOnibus();
 
+int mostrarAssentos(Onibus o);
+
+int pesquisarOnibus(int l, Data *d);
+
+void consultarAssentos();
+
+void iniciarAssentos();
 #endif

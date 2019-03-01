@@ -21,6 +21,8 @@
 
 int main(){
 	setlocale(LC_ALL, "");
+	lin = carregarLinhas();
+	oni = carregarOnibus();
 	menu();
 	return 0;
 }

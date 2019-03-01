@@ -22,7 +22,7 @@ void relArrecTela(){
 		while(fread(&o, sizeof(o), 1, fo)){
 			if(o.idLin == lin.id){
 				if(o.data.mes == d.mes && o.data.ano == d.ano){
-					valor += lin.vlr * getTotReserva(o);
+					//valor += lin.vlr * getTotReserva(o);
 					f = 1;
 				}
 			}
@@ -69,7 +69,7 @@ void relArrecArq(){
 		while(fread(&o, sizeof(o), 1, fo)){
 			if(o.idLin == lin.id){
 				if(o.data.mes == d.mes && o.data.ano == d.ano){
-					valor += lin.vlr * getTotReserva(o);
+					//valor += lin.vlr * getTotReserva(o);
 					f = 1;
 				}
 			}
@@ -119,8 +119,8 @@ void relOcupTela(){
 		while(fread(&o, sizeof(o), 1, fo)){
 			if(o.idLin == lin.id){
 				if(o.data.mes == d.mes && o.data.ano == d.ano){
-					tot[getDiaSemanaE(o.data)-1] += getTotReserva(o);
-					soma += getTotReserva(o);
+					//tot[getDiaSemanaE(o.data)-1] += getTotReserva(o);
+					//soma += getTotReserva(o);
 					f = 1;
 				}
 			}
@@ -168,8 +168,8 @@ void relOcupArq(){
 		while(fread(&o, sizeof(o), 1, fo)){
 			if(o.idLin == lin.id){
 				if(o.data.mes == d.mes && o.data.ano == d.ano){
-					tot[getDiaSemanaE(o.data)-1] += getTotReserva(o);
-					soma += getTotReserva(o);
+					//tot[getDiaSemanaE(o.data)-1] += getTotReserva(o);
+					//soma += getTotReserva(o);
 					f = 1;
 				}
 			}

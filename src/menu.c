@@ -43,7 +43,7 @@ void opcao(int op){
             break;
         case 5:
             cabecalho(5);
-            consultarHorarios();
+            //consultarHorarios();
             break;
         case 6:
             cabecalho(6);
@@ -51,15 +51,14 @@ void opcao(int op){
             break;
         case 7:
             cabecalho(7);
-            menuRel();
+            //menuRel();
             break;
         case 8:
             cabecalho(8);
-            lerReserva();
+            //lerReserva();
             break;
         case 0:
-            printf("Saindo...");
-            getchar();    
+            sair();
             break;
         default:
             printf("Opção Invalida!");
@@ -132,4 +131,24 @@ void printCabecalho(char *s){
 	}
     printf("//\n//                                                 //\n");
     printf("/////////////////////////////////////////////////////\n");
+}
+
+void sair(){
+    FILE *fp = fopen(bdlin, "wb");
+    
+    fwrite(&num_linhas, sizeof(int), 1, fp);
+    fwrite(&cont_Lin, sizeof(int), 1, fp);
+    fwrite(lin, sizeof(Linha), num_linhas, fp);
+    free(lin);
+    fclose(fp);
+
+    fp = fopen(bdoni, "wb");
+    fwrite(&num_onibus, sizeof(int), 1, fp);
+    fwrite(&cont_oni, sizeof(int), 1, fp);
+    fwrite(oni, sizeof(Onibus), num_onibus, fp);
+    free(oni);
+
+    fclose(fp);
+    printf("Saindo...");
+    getchar();
 }
