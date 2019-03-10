@@ -174,20 +174,28 @@ int getTotReserva(Onibus o){
 
 void lerReserva(){
 	char arq[100], str[60], cid[MAX];
-	
+	char log[100];
+	time_t t;
+	time(&t);
+	struct tm *tm = localtime(&t);
 	Data d;
 	Hora h;
 	char c;
 	int ass, res = 0, count = -1;
 	int l,o;
+
+
 	printf("Arquivo: ");
 	fgets(arq, sizeof(arq), stdin);
 	rmvLn(arq);
+	sprintf(log, "relatorios/log \"%s\" %02d-%02d-%04d %02d:%02d.txt",arq, tm->tm_mday,tm->tm_mon+1, tm->tm_year+1900, tm->tm_hour, tm->tm_min);
+	// sprintf(log, "relatorios/log \"%s\" %02d-%02d-%04d %02d:%02d:%02d.txt",arq, tm->tm_mday,tm->tm_mon+1, tm->tm_year+1900, tm->tm_hour, tm->tm_min, tm->tm_sec);
 
 	FILE *fo = fopen(arq, "r");
-	flog = fopen("relatorios/log.txt", "w");
+	flog = fopen(log, "w");
 	if(fo == NULL)	printf("Erro ao abrir arquivo!\n");
-
+	printf("\n-----------------------------------------------------\nRelatório de LOG\n-----------------------------------------------------\n");
+	fprintf(flog, "-----------------------------------------------------\nRelatório de LOG\n-----------------------------------------------------\n");
 	while(!feof(fo)){
 		count = 0;
 		do{
@@ -206,17 +214,34 @@ void lerReserva(){
 		if(!feof(fo)){
 			if(validaHora(h)){
 				if(validaData(d)){
+					
 					if(ass >= 1 && ass <= 20){
 						l = pesquisaLin(cid, h);
 						if(l != -1){
 							o = pesquisaOni(l, &d);
-							
 							if(o == -1){
 								iniciarAssentos();
 								o = num_onibus-1;
 								oni[o].id = cont_oni;
 								oni[o].idLin = lin[l].id;
 								oni[o].data = d;
+							}
+							int diff = diffDate(d);
+							if(diff <= 0){
+								if(diff < 0){
+									logErro(str, "Ônibus já partiu!");
+									continue;
+								}else{
+									if(h.h < getHora().h){
+										logErro(str, "Ônibus já partiu!");
+										continue;
+									}else if(h.h == getHora().h){
+										if(h.m < getHora().m){
+											logErro(str, "Ônibus já partiu!");
+											continue;
+										}
+									}
+								}
 							}
 
 							for(int i = 0; i < 20; i++){
@@ -253,6 +278,7 @@ void lerReserva(){
 	}
 	fclose(flog);
 	fclose(fo);
+	printf("-----------------------------------------------------\n\n");
 	printf("Arquivo processado com sucesso!\nRelatório gravado em log.txt.");
 	getchar();
 }

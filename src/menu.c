@@ -14,7 +14,7 @@ void menu(){
         printf("6 - Consultar assento disponivel\n");
         printf("7 - Relatórios\n");
         printf("8 - Ler reservas de arquivos texto\n");
-        printf("9 - Mostrar var\n");
+        //printf("9 - Mostrar var\n");
         printf("0 - Sair\n");
         printf("OPÇÃO: ");
         // clearBuf();
@@ -58,7 +58,7 @@ void opcao(int op){
             cabecalho(8);
             lerReserva();
             break;
-        case 9:
+        /* case 9:
             printf("num_linhas: %d\n",num_linhas);
             printf("cont_lin: %d\n\n",cont_Lin);
             printf("num_onibus: %d\n",num_onibus);
@@ -69,7 +69,7 @@ void opcao(int op){
             d.ano = 2019;
             printf("%d\n%d",diffDate(d),getDiaSemana(d)+1);
             getchar();
-            break;
+            break; */
         case 0:
             sair();
             break;

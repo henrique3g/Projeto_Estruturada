@@ -81,9 +81,9 @@ void inserirLinha(){
 
 void removerLinha(){
 	cabecalho(2);
-	int i = pesquisarLinha();
+	int l = pesquisarLinha();
 	int op;
-	if(i == -1){
+	if(l == -1){
 		printf("Linha não encontrada!\n");
 		getchar();
 		return;
@@ -91,11 +91,29 @@ void removerLinha(){
 	while(1){
 		cls();
 		cabecalho(2);
-		mostrarLinha(lin[i]);
+		mostrarLinha(lin[l]);
+		for(int i = 0; i < num_onibus; i++){
+			if(oni[i].idLin == lin[l].id){
+				for(int j = 0; j < 20; j++){
+					if(oni[i].ass[j] == -1){
+						printf("\nEssa linha não pode ser excluida pois possui registros!");
+						getchar();
+						return;
+					}
+				}
+			}
+		}
 		printf("\n1-Excluir  0-Cancelar\nOpção: ");
 		scanf("%d", &op);
 		if(op == 1){
-			lin[i] = lin[num_linhas-1];
+			for(int i = 0; i < num_onibus; i++){
+				if(oni[i].idLin == lin[l].id){
+					oni[i] = oni[num_onibus-1];
+					num_onibus--;
+					oni = realloc(oni, sizeof(Onibus)*num_onibus);
+				}
+			}
+			lin[l] = lin[num_linhas-1];
 			num_linhas--;
 			lin = realloc(lin, sizeof(Linha)*num_linhas);
 			return;

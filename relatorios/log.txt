@@ -1,5 +1,5 @@
 em "Petrolina, 16:00, 13/03/2019, 01": Linha não existe!
 em "Petrolina, 17:00, 32/03/2019, 02": Data invalida!
-em "Petrolina, 17:00, 24/04/2019, 03": ônibus cheio!
+em "Petrolina, 17:00, 24/04/2019, 03": Reserva realizada!
 em "Petrolina, 17:00, 13/03/2019, 21": Assento invalido!
-em "Petrolina, 17:00, 13/03/2019, 05": ônibus cheio!
+em "Petrolina, 17:00, 13/03/2019, 05": Reserva realizada!

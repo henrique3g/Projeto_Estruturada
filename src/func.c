@@ -131,9 +131,9 @@ int diffDate(Data final){
     struct tm *tmi, tmf = {0};
     
     time(&ti);
-    // tmi = localtime(&ti);
-    // tmf.tm_hour = tmi->tm_hour+1;
-    // tmf.tm_min = tmi->tm_min;
+    tmi = localtime(&ti);
+    tmf.tm_hour = tmi->tm_hour;
+    tmf.tm_min = tmi->tm_min-1;
     tmf.tm_mday = final.dia;
     tmf.tm_mon = final.mes-1;
     tmf.tm_year = final.ano-1900;
@@ -143,7 +143,7 @@ int diffDate(Data final){
     diff = tf - ti;
     diff = diff/3600/24;
     
-    return diff+1;
+    return diff;
 }
 
 

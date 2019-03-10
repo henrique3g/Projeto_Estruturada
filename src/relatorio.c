@@ -181,7 +181,7 @@ void relOcupArq(){
 }
 
 void logErro(char *s, char *msg){
-
+	printf("em \"%s\": %s\n", s, msg);
 	fprintf(flog, "em \"%s\": %s\n", s, msg);
 	
 }
