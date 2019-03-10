@@ -14,6 +14,7 @@ void menu(){
         printf("6 - Consultar assento disponivel\n");
         printf("7 - Relatórios\n");
         printf("8 - Ler reservas de arquivos texto\n");
+        printf("9 - Mostrar var\n");
         printf("0 - Sair\n");
         printf("OPÇÃO: ");
         // clearBuf();
@@ -43,7 +44,7 @@ void opcao(int op){
             break;
         case 5:
             cabecalho(5);
-            //consultarHorarios();
+            consultarHorarios();
             break;
         case 6:
             cabecalho(6);
@@ -51,11 +52,23 @@ void opcao(int op){
             break;
         case 7:
             cabecalho(7);
-            //menuRel();
+            menuRel();
             break;
         case 8:
             cabecalho(8);
-            //lerReserva();
+            lerReserva();
+            break;
+        case 9:
+            printf("num_linhas: %d\n",num_linhas);
+            printf("cont_lin: %d\n\n",cont_Lin);
+            printf("num_onibus: %d\n",num_onibus);
+            printf("cont_oni: %d\n",cont_oni);
+            Data d;
+            d.dia = 11;
+            d.mes = 3;
+            d.ano = 2019;
+            printf("%d\n%d",diffDate(d),getDiaSemana(d)+1);
+            getchar();
             break;
         case 0:
             sair();
@@ -149,6 +162,6 @@ void sair(){
     free(oni);
 
     fclose(fp);
-    printf("Saindo...");
-    getchar();
+    printf("Saindo...\n");
+    //getchar();
 }

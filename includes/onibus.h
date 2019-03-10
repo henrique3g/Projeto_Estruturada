@@ -23,11 +23,17 @@ int cont_oni;
 
 Onibus* carregarOnibus();
 
-int mostrarAssentos(Onibus o);
+int mostrarAssentos(int o);
 
 int pesquisarOnibus(int l, Data *d);
 
 void consultarAssentos();
 
 void iniciarAssentos();
+
+int getTotReserva(Onibus o);
+
+int pesquisaOni(int l, Data *d);
+
+void lerReserva();
 #endif

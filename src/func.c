@@ -16,9 +16,13 @@ void clearBuf(){
 
 void lerString(char *s){
     fgets(s, MAX, stdin);
+    rmvLn(s);
+    toUpperCase(s);
+}
+
+void rmvLn(char *s){
     if(s[strlen(s) - 1] == '\n')
         s[strlen(s) - 1] = '\0';
-    toUpperCase(s);
 }
 
 void toUpperCase(char *s){
@@ -78,129 +82,79 @@ void lerData(Data *d){
 Data getData(){
     Data d;
     time_t t;
-    int b;
-    char s[4];
+    struct tm *tp;
     time(&t);
-    sscanf(ctime(&t), "%3s %3s %2d %2d:%2d:%2d %4d", s, s, &d.dia, &b, &b, &b, &d.ano);
-    d.mes = formatMes(s);
+    tp = localtime(&t);
+    d.dia = tp->tm_mday;
+    d.mes = tp->tm_mon+1;
+    d.ano = tp->tm_year+1900;
     return d;
-}
-
-int formatMes(char *s){
-    if(!strcmp(s, "Jan"))
-        return 1;
-    else if(!strcmp(s, "Feb"))
-        return 2;
-    else if(!strcmp(s, "Mar"))
-        return 3;
-    else if(!strcmp(s, "Apr"))
-        return 4;
-    else if(!strcmp(s, "May"))
-        return 5;
-    else if(!strcmp(s, "Jun"))
-        return 6;
-    else if(!strcmp(s, "Jul"))
-        return 7;
-    else if(!strcmp(s, "Aug"))
-        return 8;
-    else if(!strcmp(s, "Sep"))
-        return 9;
-    else if(!strcmp(s, "Oct"))
-        return 10;
-    else if(!strcmp(s, "Nov"))
-        return 11;
-    else if(!strcmp(s, "Dec"))
-        return 12;
-    return 0;
 }
 
 Hora getHora(){
     Hora h;
     time_t t;
-    int b;
-    char s[5];
+    struct tm *tp;
     time(&t);
-    sscanf(ctime(&t), "%3s %3s %2d %2d:%2d:%2d %4d", s, s, &b, &h.h, &h.m, &b, &b);
+    tp = localtime(&t);
+    h.h = tp->tm_hour;
+    h.m = tp->tm_min;
     return h;
 }
 
-int getDiaSemana(){
+void dateToTm(Data d, struct tm *tm){
+    tm->tm_mday = d.dia;
+    tm->tm_mon = d.mes-1;
+    tm->tm_year = d.ano-1900;
+}
+
+int getDiaSemana(Data d){
     time_t t;
-    time(&t);
-    char d[4];
-    strncpy(d, ctime(&t), 3);
-    d[3] = '\0';
-    if(!strcmp(d, "Sun")){
-        return 1;
-    }else if(!strcmp(d, "Mon")){
-        return 2;
-    }else if(!strcmp(d, "Tue")){
-        return 3;
-    }else if(!strcmp(d, "Wed")){
-        return 4;
-    }else if(!strcmp(d, "Thu")){
-        return 5;
-    }else if(!strcmp(d, "Fri")){
-        return 6;
-    }else if(!strcmp(d, "Sat")){
-        return 7;
-    }else   return 0;
-}
+    struct tm tm = {0},*tmi;
+    int dia;
+    dateToTm(d, &tm);
 
-int getDiaSemanaE(Data d){
-    int dia = getDiaSemana(); // = 5
-    int dif = diffDate(d, getData());
+    t = mktime(&tm);
+
+    tmi = localtime(&t);
     
-    if(dif < 0){
-        for(int i = 1; i <= abs(dif); i++){
-            dia++;
-            if(dia > 7)
-                dia = 1;
-        }
-    }else{
-        for(int i = 1; i <= dif; i++){
-            dia--;
-            if(dia < 7)
-                dia = 7;
-        }
-    }
-    
+    dia = tmi->tm_wday;
+
     return dia;
+   
 }
 
-int diffDate(Data i, Data f){
-    int d;
-    if(i.mes == f.mes){
-        d = f.dia - i.dia;
-        return d;
-    }
-    return 0;
+
+int diffDate(Data final){
+    int diff;
+    time_t ti, tf;
+    struct tm *tmi, tmf = {0};
+    
+    time(&ti);
+    // tmi = localtime(&ti);
+    // tmf.tm_hour = tmi->tm_hour+1;
+    // tmf.tm_min = tmi->tm_min;
+    tmf.tm_mday = final.dia;
+    tmf.tm_mon = final.mes-1;
+    tmf.tm_year = final.ano-1900;
+    
+    tf = mktime(&tmf);
+    
+    diff = tf - ti;
+    diff = diff/3600/24;
+    
+    return diff+1;
 }
+
 
 int validaData(Data d){
     if((d.dia >= 1 && d.dia <= 31) && (d.mes >= 1 && d.mes <= 12) && (d.ano > 2000 && d.ano <= 2100)){
-        if(d.mes == 2){
-            if(!(d.ano % 4)){
-                if(d.dia <= 29)
-                    return 1;
-            }else{
-                if(d.dia <= 28)
-                    return 1;
-            }
-            return 0;    
-        }else if(d.mes <= 7){
-            if(isPar(d.mes) && d.dia <= 30)
-                return 1;
-            else if(!isPar(d.mes) && d.dia <= 31)
-                return 1;
-            return 0;            
-        }else if(d.mes >= 8){
-            if(isPar(d.mes) && d.dia <= 31)
-                return 1;
-            else if(!isPar(d.mes) && d.dia <= 30)
-                return 1;
-            return 0;
-        }
+        int dias_mes[2][12] = {{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+                               {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}};
+
+        if(d.dia <= dias_mes[d.ano%4==0?1:0][d.mes-1])
+            return 1;
+       
     }
     return 0;
 }

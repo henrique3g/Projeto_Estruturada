@@ -33,4 +33,8 @@ void alterarLinha();
 
 int pesquisarLinha();
 
+int pesquisaLin(char *cid, Hora h);
+
+void consultarHorarios();
+
 #endif

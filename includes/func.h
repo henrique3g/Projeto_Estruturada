@@ -22,6 +22,8 @@ void cls();
 
 void lerString(char *s);
 
+void rmvLn(char *s);
+
 void toUpperCase(char *s);
 
 void toUpper(char *c);
@@ -44,9 +46,7 @@ Data getData();
 
 Hora getHora();
 
-int getDiaSemana();
-
-int getDiaSemanaE(Data d);
+int getDiaSemana(Data d);
 
 int validaData(Data d);
 
@@ -54,6 +54,6 @@ int validaHora(Hora h);
 
 int formatMes(char *s);
 
-int diffDate(Data i, Data f);
+int diffDate(Data final);
 
 #endif

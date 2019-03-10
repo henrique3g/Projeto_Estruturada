@@ -23,6 +23,6 @@ void relOcupTela();
 
 void relOcupArq();
 
-void logErro(int i, char *s);
+void logErro(char *s, char *msg);
 
 #endif

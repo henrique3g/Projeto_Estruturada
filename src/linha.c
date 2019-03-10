@@ -131,7 +131,7 @@ void alterarLinha(){
 				lerString(l.cid);
 				break;
 			case 2:
-				printf("Hora: ");
+				printf("Horário de partida: ");
 				scanf("%d:%d", &l.hora.h, &l.hora.m);
 				while(!validaHora(l.hora)){
 					printf("Erro! Hora invalida!\n");
@@ -167,8 +167,9 @@ int pesquisarLinha(){
 	if(isNum(cid)){
 		l.id = atoi(cid);
 	}else{
-		printf("Hora: ");
+		printf("Horário de partida: ");
 		scanf("%d:%d", &l.hora.h, &l.hora.m);
+		clearBuf();
 		while(!validaHora(l.hora)){
 			printf("Erro! Hora invalida!\n");
 			printf("Horário de partida: ");
@@ -198,4 +199,35 @@ void listarLinhas(){
 		mostrarLinha(lin[i]);
 	}
 	getchar();
+}
+
+void consultarHorarios(){
+	
+	char cid[MAX];
+	printf("\nCidade: ");
+	lerString(cid);
+		
+	
+	for(int i = 0; i < num_linhas; i++){
+		
+		if(!strcmp(cid, lin[i].cid)){
+			printf("%02d:%02d\t%.2f\n",lin[i].hora.h,lin[i].hora.m,lin[i].vlr);
+		}
+		
+	}
+	getchar();
+}
+
+int pesquisaLin(char *cid, Hora h){
+    
+    for(int i = 0; i < num_linhas; i++){
+        if(!strcmp(cid, lin[i].cid)){
+            if((h.h == lin[i].hora.h && h.m == lin[i].hora.m)){
+                return i;
+            }
+        }
+        
+    }
+    
+    return -1;
 }
