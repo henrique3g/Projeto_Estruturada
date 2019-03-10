@@ -105,6 +105,7 @@ void removerLinha(){
 		}
 		printf("\n1-Excluir  0-Cancelar\nOpção: ");
 		scanf("%d", &op);
+		clearBuf();
 		if(op == 1){
 			for(int i = 0; i < num_onibus; i++){
 				if(oni[i].idLin == lin[l].id){
@@ -116,6 +117,8 @@ void removerLinha(){
 			lin[l] = lin[num_linhas-1];
 			num_linhas--;
 			lin = realloc(lin, sizeof(Linha)*num_linhas);
+			printf("Linha removida com sucesso!");
+			getchar();
 			return;
 		}else if(!op){
 			return;
@@ -164,6 +167,8 @@ void alterarLinha(){
 				break;
 			case 4:
 				lin[i] = l;
+				printf("Linha alterada com sucesso!");
+				getchar();
 				return;
 			case 0:
 				return;
