@@ -1,12 +1,9 @@
 #ifndef RELATORIO_H
 #define RELATORIO_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "onibus.h"
+// --- Bibliotecas do Sistema ---
 #include "func.h"
+#include "onibus.h"
+
 #ifdef __unix__
     #define es "\t\t"
 #elif defined(_WIN32) || defined(WIN32)

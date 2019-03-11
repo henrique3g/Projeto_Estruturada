@@ -11,18 +11,18 @@
 /***************************************************
  * Bibliotecas                                     *
  * ************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <locale.h>
+#include "func.h"
 #include "menu.h"
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(){
 	setlocale(LC_ALL, "");
+
 	lin = carregarLinhas();
 	oni = carregarOnibus();
+	
 	menu();
 	return 0;
 }

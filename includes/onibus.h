@@ -1,12 +1,8 @@
 #ifndef ONIBUS_H
 #define ONIBUS_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "linha.h"
+// --- Bibliotecas do Sistema ---
 #include "func.h"
+#include "linha.h"
 #include "relatorio.h"
 
 #define bdoni "bd/onibus.bin"
@@ -16,11 +12,11 @@ typedef struct {
 	Data data;
 	int ass[20];
 }Onibus;
-
+// --- Variaveis auxiliares ---
 Onibus *oni;
 int num_onibus;
 int cont_oni;
-
+// --- Funções para manipular Onibus --- //
 Onibus* carregarOnibus();
 
 int mostrarAssentos(int o);

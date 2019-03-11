@@ -1,59 +1,69 @@
 #ifndef FUNC_H
 #define FUNC_H
+// --- Bibliotecas do Sistema ---
+#include <stdio.h>		// Entrada e saída
+#include <stdlib.h>		// Funções gerais do sistema
+#include <string.h>		// Manipular Strings
+#include <ctype.h>		// Manipular Caracteres
+#include <time.h>		// Manipular Datas e Horas
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#define MAX 30		// Macro utilizada para padronizar o tamanho maximo de string padrão
 
-#include <time.h>
-#define MAX 30
-typedef struct {
+typedef struct {		// Estrutura de data
 	int dia;
 	int mes;
 	int ano;
 }Data;
 
-typedef struct {
+
+typedef struct {		// Estrura de hora
     int h;
     int m;
 } Hora;
+// --- Funções auxiliares --- //
+void cls();				// Limpar tela
 
-void cls();
+void clearBuf();		// Limpar buffer do teclado
 
-void lerString(char *s);
+int isPar(int n);		// Verifica se um número é par
 
-void rmvLn(char *s);
+// --- Funções de String ---
+void lerString(char *s);	// Faz a leitura de uma string
 
-void toUpperCase(char *s);
+void rmvLn(char *s);		// Remove o '\n' do final de uma string
 
-void toUpper(char *c);
+void toUpperCase(char *s);	// Deixa toda primeira letra com caixa alta
 
-void toLower(char *c);
+void trim(char *s);			// Remove espaços no inicio e fim da string
 
-int isNum(char *s);
+int isNum(char *s);			// Verifica se uma String é um número
 
-int isCharNum(char c);
 
-int isChar(char c);
+// --- Funções de Data ---
+Data getData();				// Retorna a data atual do sistema
 
-void lerData(Data *d);
+void lerData(Data *d);		// Lê uma data do usuário
 
-int isPar(int n);
+int validaData(Data d);		// Valida uma data
 
-void clearBuf();
+int diffDate(Data final);	// Retorna a diferença de dias entre a data passada por parametro e a data atual
 
-Data getData();
+int getDiaSemana(Data d);	// Retorna qual o dia da semana da data passada por parametro
 
-Hora getHora();
 
-int getDiaSemana(Data d);
+// --- Funções de Hora ---
+Hora getHora();			// Retorna a hora atual do sistema
 
-int validaData(Data d);
+int validaHora(Hora h);	// Valida hora
 
-int validaHora(Hora h);
+void lerHora(Hora *h);	// Lê um horario do usuário
 
-int formatMes(char *s);
 
-int diffDate(Data final);
+//--- Funções de cores ---
+void danger(char *texto);	// Printa um texto em vermelho
+
+void success(char *texto);	// Printa um texto em verde
+
+void warning(char *texto);	// Printa um texto em amarelo
 
 #endif

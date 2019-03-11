@@ -1,5 +1,4 @@
 #include "menu.h"
-#include "func.h"
 
 void menu(){
     int op;
@@ -15,7 +14,7 @@ void menu(){
         printf("7 - Relatórios\n");
         printf("8 - Ler reservas de arquivos texto\n");
         //printf("9 - Mostrar var\n");
-        printf("0 - Sair\n");
+        danger("0 - Sair\n");
         printf("OPÇÃO: ");
         // clearBuf();
         scanf("%1d", &op);
@@ -58,7 +57,7 @@ void opcao(int op){
             cabecalho(8);
             lerReserva();
             break;
-        /* case 9:
+        case 9:
             printf("num_linhas: %d\n",num_linhas);
             printf("cont_lin: %d\n\n",cont_Lin);
             printf("num_onibus: %d\n",num_onibus);
@@ -68,8 +67,7 @@ void opcao(int op){
             d.mes = 3;
             d.ano = 2019;
             printf("%d\n%d",diffDate(d),getDiaSemana(d)+1);
-            getchar();
-            break; */
+            break;
         case 0:
             sair();
             break;
@@ -87,7 +85,7 @@ void menuRel(){
     printf("2 - Total arrecadado (arquivo)\n");
     printf("3 - Ocupação percentual media (tela)\n");
     printf("4 - Ocupação percentual media (arquivo)\n");
-    printf("0 - Voltar\n");
+    danger("0 - Voltar\n");
 	printf("OPÇÃO: ");
     scanf("%1d", &op);
     clearBuf();

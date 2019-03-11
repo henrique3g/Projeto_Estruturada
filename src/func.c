@@ -17,6 +17,7 @@ void clearBuf(){
 void lerString(char *s){
     fgets(s, MAX, stdin);
     rmvLn(s);
+    trim(s);
     toUpperCase(s);
 }
 
@@ -27,20 +28,15 @@ void rmvLn(char *s){
 
 void toUpperCase(char *s){
     for(unsigned int i = 0; i < strlen(s); i++){
-        if(!i)  toUpper(s);
+        if(!i)  *s = toupper(*s);
         else{
-            toLower(&s[i]);
+            s[i] = tolower(s[i]);
             if(s[i] == ' '){
-                toUpper(&s[i+1]);
+                s[i+1] = toupper(s[i+1]);
                 i++;
             }
         }
     }
-}
-
-void toUpper(char *c){
-    if(*c > 96 && *c < 123)
-        *c -= 32;
 }
 
 int isPar(int n){
@@ -49,34 +45,46 @@ int isPar(int n){
     return 1;
 }
 
-void toLower(char *c){
-    if(*c > 64 && *c < 91)
-        *c += 32;
+void trim(char *s){
+    int i = 0;
+
+    for(i = 0; s[i] == ' '; i++);
+    strcpy(s, s+i);
+    
+    for(i = strlen(s)-1; s[i] == ' ' ; i--)   s[i] = '\0';
+
 }
 
 int isNum(char *s){
     for(unsigned int i = 0; i < strlen(s); i++)
-        if(!isCharNum(s[i]))
+        if(!isdigit(s[i]))
             return 0;
     return 1;
 }
 
-int isCharNum(char c){
-    if(c > 47 && c < 57)
-        return 1;
-    return 0;
-}
-
-int isChar(char c){
-    toUpper(&c);
-    if(c > 64 && c < 91)
-        return 1;
-    return 0;
-}
-
 void lerData(Data *d){
-	scanf("%2d/%2d/%4d", &d->dia, &d->mes, &d->ano);
+	printf("Data: ");
+    scanf("%2d/%2d/%4d", &d->dia, &d->mes, &d->ano);
     clearBuf();
+    while(!validaData(*d)){
+        danger("Erro! Data invalida!\n");
+        printf("Data: ");
+        scanf("%2d/%2d/%4d", &d->dia, &d->mes, &d->ano);
+        clearBuf();
+    }
+    
+}
+
+void lerHora(Hora *h){
+	printf("Horário de partida: ");
+	scanf("%2d:%2d", &h->h, &h->m);
+	clearBuf();
+	while(!validaHora(*h)){
+		danger("Erro! Hora invalida!\n");
+		printf("Horário de partida: ");
+		scanf("%2d:%2d", &h->h, &h->m);
+		clearBuf();
+	}
 }
 
 Data getData(){
@@ -163,4 +171,16 @@ int validaHora(Hora h){
     if((h.h >= 0 && h.h <= 23) && (h.m >= 0 && h.m <= 59))
         return 1;
     return 0;
+}
+
+void danger(char *texto){
+    printf("\033[31m%s\033[m",texto);
+}
+
+void success(char *texto){
+    printf("\033[32m%s\033[m",texto);
+}
+
+void warning(char *texto){
+    printf("\033[33m%s\033[m",texto);
 }

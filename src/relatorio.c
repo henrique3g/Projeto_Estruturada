@@ -121,7 +121,7 @@ void relOcupTela(){
 			printf("%-54s|\n",str);
 			printf("|Dom\tSeg\tTer\tQua\tQui\tSex\tSab  |\n|");
 			for(int k = 0; k < 7; k++)
-				printf("%02d/80%c",tot[k], k == 6?'|':'\t');
+				printf("%s%02d\033[m/80%c",tot[k]<20?"\033[31m":tot[k]>=20&&tot[k]<=50?"\033[33m":"\033[32m",tot[k], k == 6?'|':'\t');
 			printf("\n+----------------------------------------------------+\n");
 			for(int k = 0; k < 7; k++) tot[k] = 0;
 			f = 0;
@@ -181,7 +181,12 @@ void relOcupArq(){
 }
 
 void logErro(char *s, char *msg){
-	printf("em \"%s\": %s\n", s, msg);
+	if(!strcmp("Reserva realizada!",msg)){
+		printf("\033[32mem \"%s\": %s\n\033[m", s, msg);
+
+	}else{
+		printf("\033[31mem \"%s\": %s\n\033[m", s, msg);
+	}
 	fprintf(flog, "em \"%s\": %s\n", s, msg);
 	
 }

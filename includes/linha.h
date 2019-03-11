@@ -1,9 +1,6 @@
 #ifndef LINHA_H
 #define LINHA_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// --- Bibliotecas do Sistema ---
 #include "func.h"
 #include "menu.h"
 
@@ -16,9 +13,12 @@ typedef struct {
     float vlr;
     int ativo;
 } Linha;
+// --- Variaveis auxiliares --- //
 int cont_Lin;
 int num_linhas;
 Linha *lin;
+
+// --- Funções para manipular Linhas --- //
 Linha* carregarLinhas();
 
 void mostrarLinha(Linha lin);
@@ -34,6 +34,8 @@ void alterarLinha();
 int pesquisarLinha();
 
 int pesquisaLin(char *cid, Hora h);
+
+int pesquisarLinId(int id);
 
 void consultarHorarios();
 

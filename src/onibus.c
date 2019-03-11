@@ -8,7 +8,7 @@ int mostrarAssentos(int o){
 			printf("%02d", oni[o].ass[i]);
 			dis = 1;
 		}else{
-			printf(" X");
+			danger(" X");
 		}
 		printf("%c",count == 2?'\t':count == 4?'\n':' ');
 		
@@ -50,13 +50,7 @@ int pesquisarOnibus(int l, Data *d){
 		cls();
 		cabecalho(6);
 		mostrarLinha(lin[l]);
-		printf("Data: ");
 		lerData(d);
-		while(!validaData(*d)){
-			printf("Erro! Data invalida!\n");
-			printf("Data: ");
-			lerData(d);
-		}
 		
 	}
 
@@ -76,14 +70,14 @@ void consultarAssentos(){
 	int l = pesquisarLinha();
 	int diff,flag;
 	if(l == -1){
-		printf("Erro! Não há linhas cadastradas!\n");
+		danger("Erro! Não há linhas cadastradas!\n");
 		getchar();
 		return;
 	}
 	Data d;
 	int o = pesquisarOnibus(l, &d);
 	if(diffDate(d) > 30){
-		printf("Data de consulta superior a 30 dias!\n");
+		warning("Data de consulta superior a 30 dias!\n");
 		getchar();
 		return;
 	}
@@ -116,7 +110,9 @@ void consultarAssentos(){
 		}
 		if(flag == 1){
 
-			printf("assento para reservar (0 para Sair): ");
+			printf("assento para reservar (");
+			danger("0 para Sair");
+			printf("): ");
 			scanf("%2d", &ass);
 			clearBuf();
 			if(ass >= 1 && ass <= 20){		//Verifica se o numero digitado esta entre os 20 possiveis
@@ -124,21 +120,21 @@ void consultarAssentos(){
 					if(oni[o].ass[i] == ass){
 						oni[o].ass[i] = -1;			//Reserva o assento
 						flag = 0;
-						printf("Reserva realizada!");
+						success("Reserva realizada!");
 						getchar();
 					}
 				}
 				if(flag){
-					printf("Assento ocupado!");
+					warning("Assento ocupado!");
 					getchar();
 				}
 			}
 		}else if(flag == 0){
-			printf("Todos os assentos estão ocupados!\n");
+			warning("Todos os assentos estão ocupados!\n");
 			getchar();
 			break;
 		}else if(flag == -1){
-			printf("Onibús já partiu!\n");
+			warning("Onibús já partiu!\n");
 			getchar();
 			break;
 		}
@@ -181,7 +177,7 @@ void lerReserva(){
 	Data d;
 	Hora h;
 	char c;
-	int ass, res = 0, count = -1;
+	int ass, count = -1;
 	int l,o;
 
 
@@ -192,15 +188,24 @@ void lerReserva(){
 	// sprintf(log, "relatorios/log \"%s\" %02d-%02d-%04d %02d:%02d:%02d.txt",arq, tm->tm_mday,tm->tm_mon+1, tm->tm_year+1900, tm->tm_hour, tm->tm_min, tm->tm_sec);
 
 	FILE *fo = fopen(arq, "r");
+	if(fo == NULL){
+		danger("Erro ao abrir o arquivo de reservas!\n");
+		getchar();
+		return;
+	}	
 	flog = fopen(log, "w");
-	if(fo == NULL)	printf("Erro ao abrir arquivo!\n");
+	if(flog == NULL){
+		danger("Erro ao criar o arquivo de LOG!\n");
+		getchar();
+		return;
+	}
 	printf("\n-----------------------------------------------------\nRelatório de LOG\n-----------------------------------------------------\n");
 	fprintf(flog, "-----------------------------------------------------\nRelatório de LOG\n-----------------------------------------------------\n");
 	while(!feof(fo)){
 		count = 0;
 		do{
 			c = getc(fo);
-			if(isChar(c) || c == ' ' || isCharNum(c) || c == '-'){
+			if((isalnum(c) || c == '-') || (c == ' ' && count != 0)){
 				cid[count] = c;
 				count++;
 			}
@@ -208,72 +213,74 @@ void lerReserva(){
 		cid[count] = '\0';
 		toUpperCase(cid);
 
-		fscanf(fo, " %02d:%02d, %02d/%02d/%4d, %02d", &h.h,&h.m, &d.dia,&d.mes, &d.ano, &ass);
+		
 			
-		sprintf(str, "%s, %02d:%02d, %02d/%02d/%04d, %02d", cid, h.h, h.m, d.dia, d.mes, d.ano, ass);
-		if(!feof(fo)){
-			if(validaHora(h)){
-				if(validaData(d)){
-					
-					if(ass >= 1 && ass <= 20){
-						l = pesquisaLin(cid, h);
-						if(l != -1){
-							o = pesquisaOni(l, &d);
-							if(o == -1){
-								iniciarAssentos();
-								o = num_onibus-1;
-								oni[o].id = cont_oni;
-								oni[o].idLin = lin[l].id;
-								oni[o].data = d;
-							}
-							int diff = diffDate(d);
-							if(diff <= 0){
-								if(diff < 0){
-									logErro(str, "Ônibus já partiu!");
-									continue;
-								}else{
-									if(h.h < getHora().h){
-										logErro(str, "Ônibus já partiu!");
-										continue;
-									}else if(h.h == getHora().h){
-										if(h.m < getHora().m){
-											logErro(str, "Ônibus já partiu!");
-											continue;
-										}
-									}
-								}
-							}
-
-							for(int i = 0; i < 20; i++){
-								if(oni[o].ass[i] == ass){
-									oni[o].ass[i] = -1;
-									res = 1;
-									break;
-								}
-								if(oni[o].ass[i] != -1){
-									res = -1;
-								}
-							}
-							if(res == 1){
-								logErro(str, "Reserva realizada!");
-							}else if(res == -1){
-								logErro(str, "ônibus cheio!");
-							}else if(res == 0){
-								logErro(str, "Assento ocupado!");
-							}		
-						}else{
-							logErro(str, "Linha não existe!");
-							//gravar no log - linha inexistente
-						}
-					}else{
-						logErro(str, "Assento invalido!");
-					}
-				}else{
-					logErro(str, "Data invalida!");
-				}
-			}else{
+		if(fscanf(fo, " %02d:%02d, %02d/%02d/%4d, %02d", &h.h,&h.m, &d.dia,&d.mes, &d.ano, &ass) == 6){
+			sprintf(str, "%s, %02d:%02d, %02d/%02d/%04d, %02d", cid, h.h, h.m, d.dia, d.mes, d.ano, ass);
+			if(!validaHora(h)){
 				logErro(str, "Horario invalido!");
+				continue;
 			}
+			if(!validaData(d)){
+				logErro(str, "Data invalida!");
+				continue;
+			}
+			if(diffDate(d) > 30){
+				logErro(str, "Data superior a 30 dias!");
+				continue;
+			}
+			if(!(ass >= 1 && ass <= 20)){
+				logErro(str, "Assento invalido!");
+				continue;
+			}
+			l = pesquisaLin(cid, h);
+			if(l == -1){
+				logErro(str, "Linha não existe!");
+				continue;
+			}
+			o = pesquisaOni(l, &d);
+			if(o == -1){
+				iniciarAssentos();
+				o = num_onibus-1;
+				oni[o].id = cont_oni;
+				oni[o].idLin = lin[l].id;
+				oni[o].data = d;
+			}
+			int diff = diffDate(d);
+			if(diff <= 0){
+				if(diff < 0){
+					logErro(str, "Ônibus já partiu!");
+					continue;
+				}else{
+					if(h.h < getHora().h){
+						logErro(str, "Ônibus já partiu!");
+						continue;
+					}else if(h.h == getHora().h){
+						if(h.m < getHora().m){
+							logErro(str, "Ônibus já partiu!");
+							continue;
+						}
+					}
+				}
+			}
+			int res = -1;
+			for(int i = 0; i < 20; i++){
+				if(oni[o].ass[i] == ass){
+					oni[o].ass[i] = -1;
+					res = 1;
+					break;
+				}
+				if(oni[o].ass[i] != -1){
+					res = 0;
+				}
+			}
+			if(res == 1){
+				logErro(str, "Reserva realizada!");
+			}else if(res == -1){
+				logErro(str, "ônibus cheio!");
+			}else if(res == 0){
+				logErro(str, "Assento ocupado!");
+			}		
 		}
 	}
 	fclose(flog);
