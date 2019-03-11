@@ -4,39 +4,40 @@
 #include "func.h"
 #include "menu.h"
 
-#define bdlin "bd/linhas.bin"
+#define bdlin "bd/linhas.bin"       // Macro com o nome do arquivo de linhas
 
-typedef struct {
+typedef struct {        // Estrutura Linha
     int id;
     char cid[30];
     Hora hora;
     float vlr;
     int ativo;
 } Linha;
+
 // --- Variaveis auxiliares --- //
 int cont_Lin;
 int num_linhas;
 Linha *lin;
 
 // --- Funções para manipular Linhas --- //
-Linha* carregarLinhas();
+Linha* carregarLinhas();        // Função q carrega todas as linhas para a memoria
 
-void mostrarLinha(Linha lin);
+void mostrarLinha(Linha lin);   // Mostra a linha passada por parametro
 
-void listarLinhas();
+void listarLinhas();            // Lista todas as linhas existentes    
 
-void inserirLinha();
+void inserirLinha();            // Insere uma linha
 
-void removerLinha();
+void removerLinha();            // Remove uma linha caso não tenha onibus para essa linha
 
-void alterarLinha();
+void alterarLinha();            // Altera um linha
 
-int pesquisarLinha();
+int pesquisarLinha();           // Pesquisa uma linha
 
-int pesquisaLin(char *cid, Hora h);
+int pesquisarLinNome(char *cid, Hora h);    // Pesquisa uma linha pelo nome e data
 
-int pesquisarLinId(int id);
+int pesquisarLinId(int id);     // Pesquisa uma linha pelo id
 
-void consultarHorarios();
+void consultarHorarios();       // Consulta horarios para uma determinada cidade
 
 #endif

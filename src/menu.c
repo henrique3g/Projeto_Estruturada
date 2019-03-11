@@ -5,7 +5,7 @@ void menu(){
     do{
         op = -1;
         cabecalho(0);
-        printf("\n1 - Inserir linha\n");
+        printf("1 - Inserir linha\n");
         printf("2 - Remover linha\n");
         printf("3 - Alterar linha\n");
         printf("4 - Listar linhas\n");
@@ -80,8 +80,7 @@ void opcao(int op){
 
 void menuRel(){
 	int op;
-	cabecalho(7);
-    printf("\n1 - Total arrecadado (tela)\n");
+    printf("1 - Total arrecadado (tela)\n");
     printf("2 - Total arrecadado (arquivo)\n");
     printf("3 - Ocupação percentual media (tela)\n");
     printf("4 - Ocupação percentual media (arquivo)\n");
@@ -119,10 +118,6 @@ void cabecalho(int i){
 		printCabecalho("Relatórios");
 	}else if(i == 8){
 		printCabecalho("Ler reservas de arquivo texto");
-	}else if(i == 9){
-		printCabecalho("Relatório Arrecadação Mensal");
-	}else if(i == 10){
-		printCabecalho("Relatório Ocupacao percentual media");
     }
 }
 
@@ -141,7 +136,7 @@ void printCabecalho(char *s){
 		printf(" ");
 	}
     printf("//\n//                                                 //\n");
-    printf("/////////////////////////////////////////////////////\n");
+    printf("/////////////////////////////////////////////////////\n\n");
 }
 
 void sair(){

@@ -28,7 +28,7 @@ void clearBuf();		// Limpar buffer do teclado
 int isPar(int n);		// Verifica se um número é par
 
 // --- Funções de String ---
-void lerString(char *s);	// Faz a leitura de uma string
+void lerString(char *s, char *msg);	// Faz a leitura de uma string
 
 void rmvLn(char *s);		// Remove o '\n' do final de uma string
 

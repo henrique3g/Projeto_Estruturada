@@ -23,6 +23,7 @@ Onibus* carregarOnibus(){
 	FILE *fp = fopen(bdoni, "rb");
 	if(!fp){
         fp = fopen(bdoni, "wb");
+		if(fp == NULL)	exit(1);
 		cont_oni = 0;
         num_onibus = 0;
     }else{
@@ -44,23 +45,12 @@ Onibus* carregarOnibus(){
 }
 
 int pesquisarOnibus(int l, Data *d){
-	
-	
-	if(l != -1){
-		cls();
-		cabecalho(6);
-		mostrarLinha(lin[l]);
-		lerData(d);
-		
-	}
-
 	for(int i = 0; i < num_onibus; i++){
-		if(oni[i].idLin == lin[l].id){
+		if(lin[l].id == oni[i].idLin){
 			if(oni[i].data.dia == d->dia && oni[i].data.mes == d->mes && oni[i].data.ano == d->ano){
 				return i;
 			}
 		}
-		
 	}
 	return -1;
 }
@@ -75,7 +65,14 @@ void consultarAssentos(){
 		return;
 	}
 	Data d;
+
+	cls();
+	cabecalho(6);
+	mostrarLinha(lin[l]);
+	lerData(&d);
+
 	int o = pesquisarOnibus(l, &d);
+
 	if(diffDate(d) > 30){
 		warning("Data de consulta superior a 30 dias!\n");
 		getchar();
@@ -233,12 +230,12 @@ void lerReserva(){
 				logErro(str, "Assento invalido!");
 				continue;
 			}
-			l = pesquisaLin(cid, h);
+			l = pesquisarLinNome(cid, h);
 			if(l == -1){
 				logErro(str, "Linha não existe!");
 				continue;
 			}
-			o = pesquisaOni(l, &d);
+			o = pesquisarOnibus(l, &d);
 			if(o == -1){
 				iniciarAssentos();
 				o = num_onibus-1;
@@ -288,15 +285,4 @@ void lerReserva(){
 	printf("-----------------------------------------------------\n\n");
 	printf("Arquivo processado com sucesso!\nRelatório gravado em log.txt.");
 	getchar();
-}
-
-int pesquisaOni(int l, Data *d){
-	for(int i = 0; i < num_onibus; i++){
-		if(lin[l].id == oni[i].idLin){
-			if(oni[i].data.dia == d->dia && oni[i].data.mes == d->mes && oni[i].data.ano == d->ano){
-				return i;
-			}
-		}
-	}
-	return -1;
 }

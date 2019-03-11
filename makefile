@@ -3,16 +3,7 @@ PROJ_NAME=sistema
  
 # Arquivos .c
 C_SOURCE=$(wildcard ./src/*.c)
- 
-# Arquivos .h
-H_SOURCE=$(wildcard ./includes/*.h)
 
-# Libs
-C_LIBS=./objects/sqlite3.o
-
-DIR_LIB = ./lib/ 
-DIR_SRC = ./src/ 
-DIR_INC = ./includes/ 
 # Arquivos Objetos
 #OBJ=objects*.o
 OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
@@ -45,8 +36,5 @@ $(PROJ_NAME): $(OBJ)
 ./objects/main.o: ./src/main.c
 	$(CC) ./src/main.c $(CC_FLAGS)  -o $@
 
-
 clean:
 	@ $(RM)
-	
-.PHONY: all clean

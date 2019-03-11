@@ -14,11 +14,19 @@ void clearBuf(){
 
 }
 
-void lerString(char *s){
-    fgets(s, MAX, stdin);
-    rmvLn(s);
-    trim(s);
-    toUpperCase(s);
+void lerString(char *s, char *msg){
+    do{
+        printf("%s",msg);
+        fgets(s, MAX, stdin);
+        rmvLn(s);
+        trim(s);
+        toUpperCase(s);
+        if(!strcmp(s, "")){
+            danger("Erro! Digite algo!\n");
+        }else{
+            break;
+        }
+    }while(1);
 }
 
 void rmvLn(char *s){

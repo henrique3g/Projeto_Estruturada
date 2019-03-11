@@ -2,7 +2,7 @@
 
 void mostrarLinha(Linha lin){
 	char h[6];
-    printf("\nCodigo: %d",lin.id);
+    printf("Codigo: %d",lin.id);
     printf("\nCidade: %s", lin.cid);
 	sprintf(h, "%02d:%02d",lin.hora.h, lin.hora.m);
     printf("\nHorário de partida: %s", h);
@@ -14,6 +14,7 @@ Linha* carregarLinhas(){
     
     if(!fp){
         fp = fopen(bdlin, "wb");
+		if(fp == NULL)	exit(1);
 		cont_Lin = 0;
         num_linhas = 0;
     }else{
@@ -38,11 +39,9 @@ void inserirLinha(){
 	int op;
 	Linha l;
 
-	cabecalho(1);
 	l.id = cont_Lin+1;
-	printf("\nCódigo: %d\n", l.id);
-	printf("Cidade: ");
-	lerString(l.cid);
+	printf("Código: %d\n", l.id);
+	lerString(l.cid, "Cidade: ");
 	lerHora(&l.hora);
 	printf("Valor da passagem: R$ ");
 	scanf("%f", &l.vlr);
@@ -74,11 +73,10 @@ void inserirLinha(){
 }
 
 void removerLinha(){
-	cabecalho(2);
 	int l = pesquisarLinha();
 	int op;
 	if(l == -1){
-		printf("Linha não encontrada!\n");
+		danger("Linha não encontrada!\n");
 		getchar();
 		return;
 	}
@@ -90,7 +88,7 @@ void removerLinha(){
 			if(oni[i].idLin == lin[l].id){
 				for(int j = 0; j < 20; j++){
 					if(oni[i].ass[j] == -1){
-						printf("\nEssa linha não pode ser excluida pois possui registros!");
+						warning("\nEssa linha não pode ser excluida pois possui registros!");
 						getchar();
 						return;
 					}
@@ -130,7 +128,7 @@ void alterarLinha(){
 	int i = pesquisarLinha();
 	int op;
 	if(i == -1){
-		printf("Linha não encontrada!\n");
+		danger("Linha não encontrada!\n");
 		getchar();
 		return;
 	}
@@ -147,8 +145,7 @@ void alterarLinha(){
 		clearBuf();
 		switch (op){
 			case 1:
-				printf("Cidade: ");
-				lerString(l.cid);
+				lerString(l.cid, "Cidade: ");
 				break;
 			case 2:
 				lerHora(&l.hora);
@@ -177,21 +174,19 @@ int pesquisarLinha(){
 	Linha l;
 	l.id = -1;
 	char cid[MAX];
-	printf("\nCidade ou Codigo: ");
-	lerString(cid);
+	lerString(cid, "Cidade ou Codigo: ");
 	if(isNum(cid)){
 		l.id = atoi(cid);
 		return pesquisarLinId(l.id);
 	}
 	lerHora(&l.hora);
-	return pesquisaLin(cid, l.hora);
+	return pesquisarLinNome(cid, l.hora);
 }
 
 void listarLinhas(){
-	cabecalho(4);
 	for(int i = 0; i < num_linhas; i++){
-		//printf("---------------------------");
 		mostrarLinha(lin[i]);
+		printf("\n");
 	}
 	getchar();
 }
@@ -199,8 +194,7 @@ void listarLinhas(){
 void consultarHorarios(){
 	char cid[MAX];
 	int flag = 0;
-	printf("\nCidade: ");
-	lerString(cid);
+	lerString(cid, "Cidade: ");
 		
 	for(int i = 0; i < num_linhas; i++){
 		if(!strcmp(cid, lin[i].cid)){
@@ -214,7 +208,7 @@ void consultarHorarios(){
 	getchar();
 }
 
-int pesquisaLin(char *cid, Hora h){
+int pesquisarLinNome(char *cid, Hora h){
     
     for(int i = 0; i < num_linhas; i++){
         if(!strcmp(cid, lin[i].cid)){
