@@ -20,7 +20,7 @@ int num_linhas;
 Linha *lin;
 
 // --- Funções para manipular Linhas ---//
-Linha* carregarLinhas();                // Função q carrega todas as linhas para a memoria
+void carregarLinhas();                // Função q carrega todas as linhas para a memoria
 
 void mostrarLinha(Linha lin);           // Mostra a linha passada por parametro
 

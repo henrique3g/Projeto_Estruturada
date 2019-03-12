@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void menu(){
+void menu(){        // imprime o menu principal e ler a opção
     int op;
     do{
         op = -1;
@@ -21,7 +21,7 @@ void menu(){
     }while(op != 0);
 }
 
-void opcao(int op){
+void opcao(int op){     // trata a opção escolhida e chama a função e i cabeçalho correspondente
     switch (op){
         case 1:
             cabecalho(1);
@@ -55,17 +55,6 @@ void opcao(int op){
             cabecalho(8);
             lerReserva();
             break;
-        case 9:
-            printf("num_linhas: %d\n",num_linhas);
-            printf("cont_lin: %d\n\n",cont_Lin);
-            printf("num_onibus: %d\n",num_onibus);
-            Data d;
-            d.dia = 12;
-            d.mes = 03;
-            d.ano = 2019;
-            printf("diff:%d\n%d",diffDate(d),getDiaSemana(d)+1);
-            pause();
-            break;
         case 0:
             sair();
             break;
@@ -76,7 +65,7 @@ void opcao(int op){
     }
 }
 
-void menuRel(){
+void menuRel(){     // imprime o menu de ralatorios
 	int op;
     printf("1 - Total arrecadado (tela)\n");
     printf("2 - Total arrecadado (arquivo)\n");
@@ -86,6 +75,7 @@ void menuRel(){
 	printf("OPÇÃO: ");
     scanf("%d", &op);
     clearBuf();
+    // trata a opção escolhida
     if(op == 1){
 		relArrecTela();
 	}else if(op == 2){
@@ -97,7 +87,7 @@ void menuRel(){
 	}
 }
 
-void cabecalho(int i){
+void cabecalho(int i){      // imprime os cabeçalhos de acordo com 'i'
 	if(i == 0){
 		printCabecalho("Menu");
     }else if(i == 1){
@@ -119,7 +109,7 @@ void cabecalho(int i){
     }
 }
 
-void printCabecalho(char *s){
+void printCabecalho(char *s){   // função q imprime uma cabeçalho com o texto passado
 	cls();
 	int t = (int)strlen(s);
 	int sp = (49/2) - (t/2);
@@ -137,22 +127,22 @@ void printCabecalho(char *s){
     printf("/////////////////////////////////////////////////////\n\n");
 }
 
-void sair(){
-    FILE *fp = fopen(bdlin, "wb");
+void sair(){        // sai do sistema e salva todas as informações nos aruivos binarios
+    FILE *fp = fopen(bdlin, "wb");  // abre "linhas.bin" para escrita
     
-    fwrite(&num_linhas, sizeof(int), 1, fp);
-    fwrite(&cont_Lin, sizeof(int), 1, fp);
+    fwrite(&num_linhas, sizeof(int), 1, fp);    // grava o numero de linhas
+    fwrite(&cont_Lin, sizeof(int), 1, fp);      // grava o codigo da ultima linha
 
-    fwrite(lin, sizeof(Linha), num_linhas, fp);
-    free(lin);
-    fclose(fp);
+    fwrite(lin, sizeof(Linha), num_linhas, fp); // grava todas as linhas
+    free(lin);      // libera a memoria do vetor 'lin'
+    fclose(fp);     // fecha 'linhas.bin'
 
-    fp = fopen(bdoni, "wb");
-    fwrite(&num_onibus, sizeof(int), 1, fp);
+    fp = fopen(bdoni, "wb");        // abre "onibus.bin" para escrita
+    fwrite(&num_onibus, sizeof(int), 1, fp);    // grava a quantidade de onibus
 
-    fwrite(oni, sizeof(Onibus), num_onibus, fp);
-    free(oni);
+    fwrite(oni, sizeof(Onibus), num_onibus, fp);    // grava todos os onibus
+    free(oni);      // libera a memoria do vetor 'oni'
+    fclose(fp);     // fechar 'onibus.bin'
 
-    fclose(fp);
     printf("Saindo...\n");
 }

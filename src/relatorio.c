@@ -1,6 +1,6 @@
 #include "relatorio.h"
 
-void relArrecTela(){
+void relArrecTela(){		// imprime o relatorio de arrecadação mensal na tela
 	float valor = 0, total = 0;
 	int f = 0;
 		
@@ -38,7 +38,7 @@ void relArrecTela(){
 
 }
 
-void relArrecArq(){
+void relArrecArq(){		// imprime o relatorio de arrecadação mensal em arquivo
 	float valor = 0, total = 0;
 	int f = 0;
 	char arq[100];
@@ -90,7 +90,7 @@ void relArrecArq(){
 
 }
 
-void relOcupTela(){
+void relOcupTela(){			// imprime o relatorio de ocupação por dia da semana mensal na tela
 	int tot[7];
 	int soma=0;
 	for(int i = 0; i < 7; i++) tot[i] = 0;
@@ -132,7 +132,7 @@ void relOcupTela(){
 	pause();
 }
 
-void relOcupArq(){
+void relOcupArq(){		// imprime o relatorio de ocupação por dia da semana mensal em arquivo
 	int tot[7];
 	int soma=0;
 	for(int i = 0; i < 7; i++) tot[i] = 0;
@@ -182,13 +182,13 @@ void relOcupArq(){
 	system(arq);
 }
 
-void logErro(char *s, char *msg){
-	if(!strcmp("Reserva realizada!",msg)){
+void logErro(char *s, char *msg){		// grava a mesagem de log no arquivo e imprime na tela
+	if(!strcmp("Reserva realizada!",msg)){		// se conseguir reservar imprime em verde na tela
 		printf("\033[32mem \"%s\": %s\n\033[m", s, msg);
 
-	}else{
+	}else{		// se não conseguir reservar imprime em vermelho na tela
 		printf("\033[31mem \"%s\": %s\n\033[m", s, msg);
 	}
-	fprintf(flog, "em \"%s\": %s\n", s, msg);
+	fprintf(flog, "em \"%s\": %s\n", s, msg);		// grava no aruivo
 	
 }

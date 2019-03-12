@@ -17,7 +17,7 @@ Onibus *oni;
 int num_onibus;
 
 // --- Funções para manipular Onibus --- //
-Onibus* carregarOnibus();			// Carrega todos os onibus para a memoria
+void carregarOnibus();			// Carrega todos os onibus para a memoria
 
 int mostrarAssentos(int o);			// Mostra os assentos do onibus passado por parametro
 

@@ -11,17 +11,17 @@
 /***************************************************
  * Bibliotecas                                     *
  * ************************************************/
-#include <locale.h>
+#include <locale.h>		// biblioteca para definir o local
 #include "func.h"
 #include "menu.h"
 
 
 int main(){
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "");	// passa as datas , simbolos de moeda e acentuações
 
-	lin = carregarLinhas();
-	oni = carregarOnibus();
+	carregarLinhas();	// carrega todas as linhas do 'linhas.bin' para a memoria ram
+	carregarOnibus();	// carrega todas os onibus do 'onibus.bin' para a memoria ram
 	
-	menu();
+	menu();	// chama a função menu
 	return 0;
 }
