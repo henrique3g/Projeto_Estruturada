@@ -1,11 +1,12 @@
 #include "func.h"
 
  void cls(){        // Função para limpar a tela
-    #ifdef __unix__
+        system("clear");        // linux/mac:bash
+    /* #ifdef __unix__
         system("clear");        // linux/mac:bash
     #elif defined(_WIN32) || defined(WIN32)
         system("cls");          // windows:cmd
-    #endif
+    #endif */
 } 
 
 void clearBuf(){        // Função para limpar o buffer de entrada (stdin)
