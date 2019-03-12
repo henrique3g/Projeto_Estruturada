@@ -21,11 +21,13 @@ typedef struct {		// Estrura de hora
     int m;
 } Hora;
 // --- Funções auxiliares --- //
-void cls();				// Limpar tela
+void cls();					// Limpar tela
 
-void clearBuf();		// Limpar buffer do teclado
+void clearBuf();			// Limpar buffer do teclado
 
-int isPar(int n);		// Verifica se um número é par
+int isPar(int n);			// Verifica se um número é par
+
+void pause();				// Pausa o programa
 
 // --- Funções de String ---
 void lerString(char *s, char *msg);	// Faz a leitura de uma string
@@ -52,11 +54,11 @@ int getDiaSemana(Data d);	// Retorna qual o dia da semana da data passada por pa
 
 
 // --- Funções de Hora ---
-Hora getHora();			// Retorna a hora atual do sistema
+Hora getHora();				// Retorna a hora atual do sistema
 
-int validaHora(Hora h);	// Valida hora
+int validaHora(Hora h);		// Valida hora
 
-void lerHora(Hora *h);	// Lê um horario do usuário
+void lerHora(Hora *h);		// Lê um horario do usuário
 
 
 //--- Funções de cores ---

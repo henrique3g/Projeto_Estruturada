@@ -5,14 +5,13 @@ PROJ_NAME=sistema
 C_SOURCE=$(wildcard ./src/*.c)
 
 # Arquivos Objetos
-#OBJ=objects*.o
 OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
 
 # Compilador e linker
 CC=gcc
  
 ifdef OS
-	RM = del objects\\*.o Sistema.exe
+	RM = del objects\\*.o sistema.exe
 	else
   	ifeq ($(shell uname), Linux)
       RM = rm -f ./objects/*.o $(PROJ_NAME) *~
@@ -23,12 +22,10 @@ endif
 CC_FLAGS=-c -W -Wall -pedantic -g -I includes/
  
 # Compilação e vinculação
-
 all: $(PROJ_NAME)
  
 $(PROJ_NAME): $(OBJ) 
 	$(CC) $^ -o $@ 
-
 
 ./objects/%.o: ./src/%.c
 	$(CC) $< $(CC_FLAGS) -o $@

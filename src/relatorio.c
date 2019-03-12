@@ -34,7 +34,7 @@ void relArrecTela(){
 	printf("+-----------------------------------------------+\n");
 	printf("|\033[32mTotal                                %10.2f\033[m|\n", total);
 	printf("+-----------------------------------------------+\n");
-	getchar();
+	pause();
 
 }
 
@@ -83,7 +83,7 @@ void relArrecArq(){
 	
 	fclose(frel);
 	success("Relatório gerado com sucesso!");
-	getchar();
+	pause();
 	sprintf(arq, "\"relatorios\\relatorio de vendas do mes %d emitido %02d-%02d-%04d.txt\"", d.mes,d.dia, d.mes, d.ano);
 	printf("Feche o arquivo aberto para continuar!\n");
 	system(arq);
@@ -129,7 +129,7 @@ void relOcupTela(){
 			soma = 0;
 		}
 	}
-	getchar();
+	pause();
 }
 
 void relOcupArq(){
@@ -176,7 +176,7 @@ void relOcupArq(){
 	
 	fclose(frel);
 	success("Relatório gerado com sucesso!");
-	getchar();
+	pause();
 	sprintf(arq, "\"relatorios\\relatorio de ocupacao do mes %d emitido %02d-%02d-%04d.txt\"", d.mes, d.dia, d.mes, d.ano);
 	printf("Feche o arquivo aberto para continuar!\n");
 	system(arq);

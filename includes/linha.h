@@ -19,25 +19,25 @@ int cont_Lin;
 int num_linhas;
 Linha *lin;
 
-// --- Funções para manipular Linhas --- //
-Linha* carregarLinhas();        // Função q carrega todas as linhas para a memoria
+// --- Funções para manipular Linhas ---//
+Linha* carregarLinhas();                // Função q carrega todas as linhas para a memoria
 
-void mostrarLinha(Linha lin);   // Mostra a linha passada por parametro
+void mostrarLinha(Linha lin);           // Mostra a linha passada por parametro
 
-void listarLinhas();            // Lista todas as linhas existentes    
+void listarLinhas();                    // Lista todas as linhas existentes    
 
-void inserirLinha();            // Insere uma linha
+void inserirLinha();                    // Insere uma linha
 
-void removerLinha();            // Remove uma linha caso não tenha onibus para essa linha
+void removerLinha();                    // Remove uma linha caso não tenha onibus para essa linha
 
-void alterarLinha();            // Altera um linha
+void alterarLinha();                    // Altera um linha
 
-int pesquisarLinha();           // Pesquisa uma linha
+int pesquisarLinha();                   // Pesquisa uma linha
 
-int pesquisarLinNome(char *cid, Hora h);    // Pesquisa uma linha pelo nome e data
+int pesquisarLinNome(char *cid, Hora h);// Pesquisa uma linha pelo nome e data
 
-int pesquisarLinId(int id);     // Pesquisa uma linha pelo id
+int pesquisarLinId(int id);             // Pesquisa uma linha pelo id
 
-void consultarHorarios();       // Consulta horarios para uma determinada cidade
+void consultarHorarios();               // Consulta horarios para uma determinada cidade
 
 #endif

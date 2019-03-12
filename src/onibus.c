@@ -24,19 +24,16 @@ Onibus* carregarOnibus(){
 	if(!fp){
         fp = fopen(bdoni, "wb");
 		if(fp == NULL)	exit(1);
-		cont_oni = 0;
         num_onibus = 0;
     }else{
         if(fread(&num_onibus, sizeof(int), 1, fp)){
-			if(fread(&cont_oni, sizeof(int), 1, fp)){
-				if(num_onibus){
-					oni = malloc(sizeof(Onibus)*num_onibus);
-					if(fread(oni, sizeof(Onibus), num_onibus, fp)){
-						fclose(fp);
-						return oni;
-					}
-
+			if(num_onibus){
+				oni = malloc(sizeof(Onibus)*num_onibus);
+				if(fread(oni, sizeof(Onibus), num_onibus, fp)){
+					fclose(fp);
+					return oni;
 				}
+
 			}
         }
     }
@@ -61,28 +58,33 @@ void consultarAssentos(){
 	int diff,flag;
 	if(l == -1){
 		danger("Erro! Não há linhas cadastradas!\n");
-		getchar();
+		pause();
 		return;
 	}
-	Data d;
+	if(!lin[l].ativo){
+		danger("Linha inativa!");
+		pause();
+		return;
+	}
 
 	cls();
 	cabecalho(6);
 	mostrarLinha(lin[l]);
+	
+	Data d;
 	lerData(&d);
 
 	int o = pesquisarOnibus(l, &d);
 
 	if(diffDate(d) > 30){
 		warning("Data de consulta superior a 30 dias!\n");
-		getchar();
+		pause();
 		return;
 	}
 	int ass;
 	if(o == -1){
 		iniciarAssentos();
 		o = num_onibus-1;
-		oni[o].id = cont_oni;
 		oni[o].idLin = lin[l].id;
 		oni[o].data = d;
 	}
@@ -110,37 +112,65 @@ void consultarAssentos(){
 			printf("assento para reservar (");
 			danger("0 para Sair");
 			printf("): ");
-			scanf("%2d", &ass);
+			scanf("%d", &ass);
 			clearBuf();
+			if(!ass) return;
 			if(ass >= 1 && ass <= 20){		//Verifica se o numero digitado esta entre os 20 possiveis
 				for(int i = 0; i < 20; i++){		//For para achar o assento a ser reservado
 					if(oni[o].ass[i] == ass){
 						oni[o].ass[i] = -1;			//Reserva o assento
 						flag = 0;
 						success("Reserva realizada!");
-						getchar();
+						pause();
 					}
 				}
 				if(flag){
 					warning("Assento ocupado!");
-					getchar();
+					pause();
 				}
+				continue;
 			}
-		}else if(flag == 0){
-			warning("Todos os assentos estão ocupados!\n");
-			getchar();
-			break;
 		}else if(flag == -1){
 			warning("Onibús já partiu!\n");
-			getchar();
+			pause();
 			break;
 		}
+		if(flag == 0){
+			char s[5];
+			warning("Todos os assentos estão ocupados!\n");
+			fgets(s, sizeof(s), stdin);
+			rmvLn(s);
+			trim(s);
+			ass = atoi(s);
+		}
+		if(ass <= -1 && ass >= -20){
+			ass *= -1;
+			//ass;
+			int count = 0;
+			for(int i = 0; i < 20; i++){		//For para achar o assento a ser reservado
+				if(count == 2){
+					if(ass == i+2)
+						oni[o].ass[i] = i+2;
+					if(ass == i+1)
+						oni[o].ass[i+1] = i+1;
+					i++;
+					count = 0;
+					continue;
+				}
+				if(ass == i+1) 
+					oni[o].ass[i] = i+1;
+				count++;
+				
+			}
+			continue;
+		}
+		return;
+		
 	}while(ass != 0);
 }
 
 void iniciarAssentos(){
 	num_onibus++;
-	cont_oni++;
 	oni = realloc(oni, sizeof(Onibus)*num_onibus);
 	int count = 0;
 	for(int i = 0; i < 20; i++){
@@ -187,13 +217,13 @@ void lerReserva(){
 	FILE *fo = fopen(arq, "r");
 	if(fo == NULL){
 		danger("Erro ao abrir o arquivo de reservas!\n");
-		getchar();
+		pause();
 		return;
 	}	
 	flog = fopen(log, "w");
 	if(flog == NULL){
 		danger("Erro ao criar o arquivo de LOG!\n");
-		getchar();
+		pause();
 		return;
 	}
 	printf("\n-----------------------------------------------------\nRelatório de LOG\n-----------------------------------------------------\n");
@@ -215,7 +245,7 @@ void lerReserva(){
 		if(fscanf(fo, " %02d:%02d, %02d/%02d/%4d, %02d", &h.h,&h.m, &d.dia,&d.mes, &d.ano, &ass) == 6){
 			sprintf(str, "%s, %02d:%02d, %02d/%02d/%04d, %02d", cid, h.h, h.m, d.dia, d.mes, d.ano, ass);
 			if(!validaHora(h)){
-				logErro(str, "Horario invalido!");
+				logErro(str, "Horário inválido!");
 				continue;
 			}
 			if(!validaData(d)){
@@ -227,7 +257,7 @@ void lerReserva(){
 				continue;
 			}
 			if(!(ass >= 1 && ass <= 20)){
-				logErro(str, "Assento invalido!");
+				logErro(str, "Assento inválido!");
 				continue;
 			}
 			l = pesquisarLinNome(cid, h);
@@ -235,11 +265,14 @@ void lerReserva(){
 				logErro(str, "Linha não existe!");
 				continue;
 			}
+			if(!lin[l].ativo){
+				logErro(arq, "Linha inativa!");
+				continue;
+			}
 			o = pesquisarOnibus(l, &d);
 			if(o == -1){
 				iniciarAssentos();
 				o = num_onibus-1;
-				oni[o].id = cont_oni;
 				oni[o].idLin = lin[l].id;
 				oni[o].data = d;
 			}
@@ -284,5 +317,5 @@ void lerReserva(){
 	fclose(fo);
 	printf("-----------------------------------------------------\n\n");
 	printf("Arquivo processado com sucesso!\nRelatório gravado em log.txt.");
-	getchar();
+	pause();
 }

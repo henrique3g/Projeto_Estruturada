@@ -10,14 +10,12 @@ void menu(){
         printf("3 - Alterar linha\n");
         printf("4 - Listar linhas\n");
         printf("5 - Consultar horários\n");
-        printf("6 - Consultar assento disponivel\n");
+        printf("6 - Consultar assentos disponível\n");
         printf("7 - Relatórios\n");
         printf("8 - Ler reservas de arquivos texto\n");
-        //printf("9 - Mostrar var\n");
         danger("0 - Sair\n");
         printf("OPÇÃO: ");
-        // clearBuf();
-        scanf("%1d", &op);
+        scanf("%d", &op);
         clearBuf();
         opcao(op);
     }while(op != 0);
@@ -61,19 +59,19 @@ void opcao(int op){
             printf("num_linhas: %d\n",num_linhas);
             printf("cont_lin: %d\n\n",cont_Lin);
             printf("num_onibus: %d\n",num_onibus);
-            printf("cont_oni: %d\n",cont_oni);
             Data d;
-            d.dia = 11;
-            d.mes = 3;
+            d.dia = 12;
+            d.mes = 03;
             d.ano = 2019;
-            printf("%d\n%d",diffDate(d),getDiaSemana(d)+1);
+            printf("diff:%d\n%d",diffDate(d),getDiaSemana(d)+1);
+            pause();
             break;
         case 0:
             sair();
             break;
         default:
             printf("Opção Invalida!");
-            getchar();
+            pause();
             break;
     }
 }
@@ -82,11 +80,11 @@ void menuRel(){
 	int op;
     printf("1 - Total arrecadado (tela)\n");
     printf("2 - Total arrecadado (arquivo)\n");
-    printf("3 - Ocupação percentual media (tela)\n");
-    printf("4 - Ocupação percentual media (arquivo)\n");
+    printf("3 - Ocupação percentual média (tela)\n");
+    printf("4 - Ocupação percentual média (arquivo)\n");
     danger("0 - Voltar\n");
 	printf("OPÇÃO: ");
-    scanf("%1d", &op);
+    scanf("%d", &op);
     clearBuf();
     if(op == 1){
 		relArrecTela();
@@ -144,17 +142,17 @@ void sair(){
     
     fwrite(&num_linhas, sizeof(int), 1, fp);
     fwrite(&cont_Lin, sizeof(int), 1, fp);
+
     fwrite(lin, sizeof(Linha), num_linhas, fp);
     free(lin);
     fclose(fp);
 
     fp = fopen(bdoni, "wb");
     fwrite(&num_onibus, sizeof(int), 1, fp);
-    fwrite(&cont_oni, sizeof(int), 1, fp);
+
     fwrite(oni, sizeof(Onibus), num_onibus, fp);
     free(oni);
 
     fclose(fp);
     printf("Saindo...\n");
-    //getchar();
 }

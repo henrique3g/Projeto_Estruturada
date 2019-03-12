@@ -14,6 +14,9 @@ void clearBuf(){
 
 }
 
+void pause(){
+    clearBuf();
+}
 void lerString(char *s, char *msg){
     do{
         printf("%s",msg);
@@ -64,9 +67,14 @@ void trim(char *s){
 }
 
 int isNum(char *s){
-    for(unsigned int i = 0; i < strlen(s); i++)
-        if(!isdigit(s[i]))
+    for(unsigned int i = 0; i < strlen(s); i++){
+        if(s[0] == '-' && i == 0){
+            continue;    
+        }
+        if(!isdigit(s[i])){
             return 0;
+        }
+    }
     return 1;
 }
 
@@ -148,8 +156,9 @@ int diffDate(Data final){
     
     time(&ti);
     tmi = localtime(&ti);
+
     tmf.tm_hour = tmi->tm_hour;
-    tmf.tm_min = tmi->tm_min-1;
+    tmf.tm_min = tmi->tm_min+1;
     tmf.tm_mday = final.dia;
     tmf.tm_mon = final.mes-1;
     tmf.tm_year = final.ano-1900;

@@ -2,13 +2,21 @@
 
 void mostrarLinha(Linha lin){
 	char h[6];
-    printf("Codigo: %d",lin.id);
+    printf("Código: %d",lin.id);
     printf("\nCidade: %s", lin.cid);
 	sprintf(h, "%02d:%02d",lin.hora.h, lin.hora.m);
     printf("\nHorário de partida: %s", h);
     printf("\nValor da passagem: R$ %.2f\n", lin.vlr);
 }
 
+void mostrarLinhaAtivo(Linha lin){
+	mostrarLinha(lin);
+	if(lin.ativo){
+		success("Ativo\n");
+	}else{
+		danger("Desativado\n");
+	}
+}
 Linha* carregarLinhas(){
     FILE *fp = fopen(bdlin, "rb");
     
@@ -46,6 +54,8 @@ void inserirLinha(){
 	printf("Valor da passagem: R$ ");
 	scanf("%f", &l.vlr);
 	clearBuf();
+
+	l.ativo = 1;
 	
 	cls();
 	cabecalho(1);
@@ -66,7 +76,7 @@ void inserirLinha(){
 			break;
 		default:
 			danger("Opção invalida!\n");
-			getchar();
+			pause();
 			break;
 	}
 		
@@ -77,19 +87,19 @@ void removerLinha(){
 	int op;
 	if(l == -1){
 		danger("Linha não encontrada!\n");
-		getchar();
+		pause();
 		return;
 	}
 	while(1){
 		cls();
 		cabecalho(2);
-		mostrarLinha(lin[l]);
+		mostrarLinhaAtivo(lin[l]);
 		for(int i = 0; i < num_onibus; i++){
 			if(oni[i].idLin == lin[l].id){
 				for(int j = 0; j < 20; j++){
 					if(oni[i].ass[j] == -1){
 						warning("\nEssa linha não pode ser excluida pois possui registros!");
-						getchar();
+						pause();
 						return;
 					}
 				}
@@ -112,13 +122,13 @@ void removerLinha(){
 			num_linhas--;
 			lin = realloc(lin, sizeof(Linha)*num_linhas);
 			success("Linha removida com sucesso!");
-			getchar();
+			pause();
 			return;
 		}else if(!op){
 			return;
 		}else{
 			danger("Opção invalida!\n");
-			getchar();
+			pause();
 		}
 	}
 
@@ -129,16 +139,22 @@ void alterarLinha(){
 	int op;
 	if(i == -1){
 		danger("Linha não encontrada!\n");
-		getchar();
+		pause();
 		return;
 	}
 	Linha l = lin[i];
 	do{	
 		cls();
 		cabecalho(3);
-		mostrarLinha(l);
+		mostrarLinhaAtivo(l);
+		
 		printf("\n1-Cidade  2-Hora  3-Valor  ");
 		success("4-Salvar  ");
+		if(l.ativo){
+			warning("5-Desativar  ");
+		}else{
+			warning("5-Ativar  ");
+		}
 		danger("0-Cancelar\n");
 		printf("Opção: ");
 		scanf("%d", &op);
@@ -157,13 +173,16 @@ void alterarLinha(){
 			case 4:
 				lin[i] = l;
 				success("Linha alterada com sucesso!");
-				getchar();
+				pause();
 				return;
+			case 5:
+				l.ativo = !l.ativo;
+				break;
 			case 0:
 				return;
 			default:
 				danger("Opção invalida!\n");
-				getchar();
+				pause();
 				break;
 		}
 
@@ -174,7 +193,7 @@ int pesquisarLinha(){
 	Linha l;
 	l.id = -1;
 	char cid[MAX];
-	lerString(cid, "Cidade ou Codigo: ");
+	lerString(cid, "Cidade ou Código: ");
 	if(isNum(cid)){
 		l.id = atoi(cid);
 		return pesquisarLinId(l.id);
@@ -185,10 +204,10 @@ int pesquisarLinha(){
 
 void listarLinhas(){
 	for(int i = 0; i < num_linhas; i++){
-		mostrarLinha(lin[i]);
+		mostrarLinhaAtivo(lin[i]);
 		printf("\n");
 	}
-	getchar();
+	pause();
 }
 
 void consultarHorarios(){
@@ -197,7 +216,7 @@ void consultarHorarios(){
 	lerString(cid, "Cidade: ");
 		
 	for(int i = 0; i < num_linhas; i++){
-		if(!strcmp(cid, lin[i].cid)){
+		if(!strcmp(cid, lin[i].cid) && lin[i].ativo){
 			printf("%02d:%02d\tR$ %.2f\n",lin[i].hora.h,lin[i].hora.m,lin[i].vlr);
 			flag = 1;
 		}
@@ -205,7 +224,7 @@ void consultarHorarios(){
 	if(!flag){
 		warning("Nenhuma linha encontrada!");
 	}
-	getchar();
+	pause();
 }
 
 int pesquisarLinNome(char *cid, Hora h){

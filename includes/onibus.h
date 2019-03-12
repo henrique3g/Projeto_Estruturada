@@ -7,7 +7,6 @@
 
 #define bdoni "bd/onibus.bin"		// Macro com o nome do arquivo de onibus
 typedef struct {		// Estrutura Onibus
-	int id;
 	int idLin;
 	Data data;
 	int ass[20];
@@ -16,7 +15,6 @@ typedef struct {		// Estrutura Onibus
 // --- Variaveis auxiliares ---
 Onibus *oni;
 int num_onibus;
-int cont_oni;
 
 // --- Funções para manipular Onibus --- //
 Onibus* carregarOnibus();			// Carrega todos os onibus para a memoria
@@ -32,4 +30,5 @@ void iniciarAssentos();				// Inicia os assentos quando o onibus ainda não exis
 int getTotReserva(Onibus o);		// Retorna o total dereservas feiras no onibus passado por parametro
 
 void lerReserva();					// Ler reservas de um arquivo texto
+
 #endif

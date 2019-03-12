@@ -11,15 +11,15 @@
 	#define es "\t" 
 #endif
 
-FILE *flog;				// Variavel para arquivo de log
+FILE *flog;	// Variavel para arquivo de log
 
-void relArrecTela();	// relatorio de arrecadação na tela
+void relArrecTela();				// relatorio de arrecadação na tela
 
-void relArrecArq();		// Relatorio de arrecadação em arquivo
+void relArrecArq();					// Relatorio de arrecadação em arquivo
 
-void relOcupTela();		// Relatorio deocupação na tela
+void relOcupTela();					// Relatorio deocupação na tela
 
-void relOcupArq();		// Relatorio deocupação em arquivo
+void relOcupArq();					// Relatorio deocupação em arquivo
 
 void logErro(char *s, char *msg);	// Escreve mensgens no arquivo de log
 
